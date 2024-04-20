@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     isVerified: {
       type: Boolean,
@@ -27,7 +28,7 @@ const userSchema = new mongoose.Schema(
     emailVerificationTokenExpiry: {
       type: String,
     },
-    Profile: {
+    profile: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Profile",
     },
@@ -37,6 +38,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;

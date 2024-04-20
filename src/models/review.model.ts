@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { models } from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -20,6 +20,6 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-const Review = mongoose.model("Review", reviewSchema);
+const Review = models.Review || mongoose.model("Review", reviewSchema);
 
 export default Review;
