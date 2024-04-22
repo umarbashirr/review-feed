@@ -74,7 +74,7 @@ export async function POST(req: Request, res: Response) {
         success: true,
       },
       {
-        status: 201,
+        status: 200,
       }
     );
   } catch (error: any) {

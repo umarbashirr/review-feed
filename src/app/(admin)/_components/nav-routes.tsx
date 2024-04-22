@@ -34,6 +34,7 @@ const NavRoutes = () => {
       {routes.map(({ label, path }: { label: string; path: string }) => {
         return (
           <Link
+            key={label}
             href={path}
             className={cn(
               "capitalize  rounded-md p-2 duration-200 ease-in-out transition-all",
