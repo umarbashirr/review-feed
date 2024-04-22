@@ -4,9 +4,9 @@ import Header from "./_components/header";
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div>
+    <div className="min-h-screen h-full w-full bg-[#fafafa]">
       <Sidebar />
-      <div>
+      <div className="pl-56">
         <Header />
         {children}
       </div>
