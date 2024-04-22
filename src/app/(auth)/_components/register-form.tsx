@@ -1,20 +1,23 @@
 "use client";
 
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const RegisterFormSchema = z.object({
   name: z.string().min(2, {
@@ -34,6 +37,8 @@ const RegisterFormSchema = z.object({
 });
 
 const RegisterForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
@@ -43,8 +48,39 @@ const RegisterForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof RegisterFormSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof RegisterFormSchema>) {
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (data.statusCode !== 201) {
+        throw new Error(data?.message);
+      }
+
+      toast({
+        title: "Success",
+        description: data?.message,
+      });
+
+      setIsLoading(false);
+
+      router.replace("/login");
+
+      form.reset();
+    } catch (error: any) {
+      setIsLoading(false);
+      console.error(error.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error?.message,
+      });
+    }
   }
 
   return (
@@ -57,7 +93,12 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your name" type="text" {...field} />
+                <Input
+                  placeholder="Enter your name"
+                  type="text"
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,7 +111,12 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" type="email" {...field} />
+                <Input
+                  placeholder="Enter your email"
+                  type="email"
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,14 +133,20 @@ const RegisterForm = () => {
                   placeholder="Enter your password"
                   type="password"
                   {...field}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="block w-full">
-          Register now
+        <Button
+          type="submit"
+          className="w-full flex items-center"
+          disabled={isLoading}
+        >
+          {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+          {isLoading ? "Please wait" : "Register now"}
         </Button>
       </form>
     </Form>

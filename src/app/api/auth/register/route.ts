@@ -64,10 +64,15 @@ export async function POST(req: Request, res: Response) {
 
     const addedUser = await newUser.save();
 
+    const userPayload = {
+      id: addedUser._id,
+      email: addedUser.email,
+    };
+
     return NextResponse.json(
       {
         message: "Account created successfully!",
-        data: addedUser.populate("profile"),
+        data: userPayload,
         statusCode: 201,
         success: true,
       },
