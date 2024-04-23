@@ -23,7 +23,7 @@ export async function POST(req: Request, res: Response) {
       );
     }
 
-    const user = await User.findOne({ email }).populate("password profile");
+    const user = await User.findOne({ email }).populate("password", "profile");
 
     if (!user) {
       return NextResponse.json(

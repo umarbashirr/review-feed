@@ -38,7 +38,7 @@ const NavRoutes = () => {
             href={path}
             className={cn(
               "capitalize  rounded-md p-2 duration-200 ease-in-out transition-all",
-              pathname === path
+              pathname === path || pathname.includes(path)
                 ? "bg-primary text-white shadow-sm"
                 : "text-primary hover:bg-gray-100 "
             )}
