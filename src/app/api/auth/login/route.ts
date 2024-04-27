@@ -53,7 +53,7 @@ export async function POST(req: Request, res: Response) {
 
     const payload = {
       id: user?._id,
-      name: user?.profile?.name,
+      name: user?.name,
       email: user?.email,
     };
 

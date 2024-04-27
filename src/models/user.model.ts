@@ -28,9 +28,40 @@ const userSchema = new mongoose.Schema(
     emailVerificationTokenExpiry: {
       type: String,
     },
-    profile: {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    avatarURL: {
+      type: String,
+    },
+    companyName: {
+      type: String,
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    address: {
+      locality: String,
+      addressLine: String,
+      city: String,
+      state: String,
+      country: String,
+      zipcode: String,
+    },
+    hasTrialMode: {
+      type: Boolean,
+      default: true,
+    },
+    isPaidUser: {
+      type: Boolean,
+      default: false,
+    },
+    billingDetails: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Profile",
+      ref: "Stripe",
     },
   },
   {

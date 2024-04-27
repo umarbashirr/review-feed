@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import connectMongo from "@/lib/db-connect";
 import User from "@/models/user.model";
-import Profile from "@/models/profile.model";
 
 export async function POST(req: Request, res: Response) {
   try {
@@ -50,16 +49,10 @@ export async function POST(req: Request, res: Response) {
       );
     }
 
-    const profile = new Profile({
-      name,
-    });
-
-    const addedProfile = await profile.save();
-
     const newUser = new User({
+      name,
       email,
       password: hashedPassword,
-      profile: addedProfile?._id,
     });
 
     const addedUser = await newUser.save();
@@ -81,6 +74,7 @@ export async function POST(req: Request, res: Response) {
       }
     );
   } catch (error: any) {
+    console.log(error);
     return NextResponse.json(
       {
         message: error.message,
