@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import SidebarSheet from "./sidebar-sheet";
 
 const Header = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +40,10 @@ const Header = () => {
     }
   };
   return (
-    <header className="h-16 px-6 flex items-center justify-end w-full">
+    <header className="h-16 px-6 flex items-center justify-between lg:justify-end w-full">
+      <div className="flex lg:hidden">
+        <SidebarSheet />
+      </div>
       <Button onClick={logoutHandler} disabled={isLoading}>
         {isLoading ? "Logging out" : "Logout"}
       </Button>

@@ -29,7 +29,7 @@ const ReviewPageContainer = () => {
 
   return (
     <div>
-      <div className="mb-10 flex items-center justify-between gap-4">
+      <div className="mb-10 flex flex-col lg:flex-row items-center justify-between gap-4">
         <div>
           <div className="space-x-1 rounded-md shadow-sm border p-1">
             {tabs.map(({ label, value }: { label: string; value: number }) => {
