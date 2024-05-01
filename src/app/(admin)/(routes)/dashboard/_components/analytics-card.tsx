@@ -2,7 +2,7 @@ import { BiBarChart, BiBarChartAlt, BiHappy, BiSad } from "react-icons/bi";
 
 const AnalyticsCard = () => {
   return (
-    <div className="grid md:grid-cols-4 gap-10">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-5 gap-x-10">
       <div className="w-full min-h-[120px] bg-white rounded-lg shadow-md flex items-center justify-start px-6 space-x-4">
         <div className="bg-yellow-100 p-2 inline-flex justify-center items-center rounded-full">
           <BiBarChart className="w-8 h-8 text-yellow-600" />
