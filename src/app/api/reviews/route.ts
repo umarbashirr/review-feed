@@ -1,7 +1,9 @@
+import connectMongo from "@/lib/db-connect";
 import Review from "@/models/review.model";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+  await connectMongo();
   try {
     const body = await req.json();
     const {
@@ -66,6 +68,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
+    await connectMongo();
     const reviews = await Review.find().sort({ createdAt: -1 }).limit(4);
 
     return NextResponse.json(

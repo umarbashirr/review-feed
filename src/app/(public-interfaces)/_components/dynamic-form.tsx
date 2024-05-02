@@ -6,11 +6,12 @@ import TextAreaCustom from "@/components/dynamic-form/text-area";
 import TextInputField from "@/components/dynamic-form/text-input-field";
 import { toast } from "@/components/ui/use-toast";
 import { FormFieldInterface } from "@/interfaces/form-field.interface";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const DynamicForm = React.memo(({ data }: any) => {
+  const router = useRouter();
   // Let's manage the form fields values here based on form fields
-
   const [formFields, setFormFields] = React.useState<any>({});
 
   async function onSubmit(e: any) {
@@ -33,7 +34,8 @@ const DynamicForm = React.memo(({ data }: any) => {
           title: "Success",
           description: data.message,
         });
-        setFormFields({});
+
+        router.refresh();
       } else {
         toast({
           variant: "destructive",

@@ -36,9 +36,6 @@ const SingleFormTemplateCard = ({ formId, title, description }: CardProps) => {
       <h3 className="mb-2 text-lg font-medium">{title}</h3>
       <p className="text-sm text-muted-foreground flex-grow">{description}</p>
       <div className="space-x-2 mt-4">
-        <Button size="sm" variant="outline">
-          Embed
-        </Button>
         <Button
           size="sm"
           variant={!isCopied ? "outline" : "success"}
