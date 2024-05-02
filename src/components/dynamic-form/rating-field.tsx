@@ -11,7 +11,7 @@ interface RatingFieldProps {
 }
 
 const RatingField = ({ label, name, onChange }: RatingFieldProps) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(1);
   const [hover, setHover] = useState(0);
 
   const handleRatingChange = (ratingValue: number) => {
@@ -20,7 +20,7 @@ const RatingField = ({ label, name, onChange }: RatingFieldProps) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col space-y-2">
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         {label}
       </label>
@@ -40,7 +40,9 @@ const RatingField = ({ label, name, onChange }: RatingFieldProps) => {
               <FaStar
                 className={cn(
                   "text-2xl",
-                  ratingValue <= (hover || rating) ? "fill-yellow-400" : ""
+                  ratingValue <= (hover || rating)
+                    ? "fill-yellow-400"
+                    : "stroke-primary stroke-2 fill-transparent"
                 )}
                 onMouseEnter={() => setHover(ratingValue)}
                 onMouseLeave={() => setHover(0)}

@@ -24,7 +24,7 @@ export const standardReviewForms = [
       },
       {
         label: "Rating",
-        type: "number",
+        type: "rating",
         name: "rating",
         isActive: true,
         shouldDisabled: false,
@@ -52,7 +52,7 @@ export const standardReviewForms = [
         label: "Guest Name",
         placeholder: "Enter guest name",
         type: "text",
-        name: "guestName",
+        name: "name",
         isActive: true,
         shouldDisabled: false,
       },
@@ -74,7 +74,7 @@ export const standardReviewForms = [
       },
       {
         label: "Rating",
-        type: "number",
+        type: "rating",
         name: "rating",
         isActive: true,
         shouldDisabled: false,

@@ -1,8 +1,5 @@
 "use client";
 
-import { Label } from "../ui/label";
-import { Textarea } from "../ui/textarea";
-
 interface TextInputFieldProps {
   onChange: (e: any) => void;
   label: string;
@@ -19,7 +16,7 @@ const TextAreaCustom = ({
   placeholder = "",
 }: TextInputFieldProps) => {
   return (
-    <div className="">
+    <div className="flex flex-col space-y-2">
       <label
         htmlFor={name}
         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

@@ -4,6 +4,7 @@ import DynamicButton from "@/components/dynamic-form/dynamic-button";
 import RatingField from "@/components/dynamic-form/rating-field";
 import TextAreaCustom from "@/components/dynamic-form/text-area";
 import TextInputField from "@/components/dynamic-form/text-input-field";
+import { toast } from "@/components/ui/use-toast";
 import { FormFieldInterface } from "@/interfaces/form-field.interface";
 import React from "react";
 
@@ -15,6 +16,39 @@ const DynamicForm = React.memo(({ data }: any) => {
   async function onSubmit(e: any) {
     e.preventDefault();
     console.log(formFields);
+
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formFields),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "Success",
+          description: data.message,
+        });
+        setFormFields({});
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.error,
+        });
+      }
+    } catch (error: any) {
+      console.log(error.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
   }
 
   function handleInputChange(e: any) {
