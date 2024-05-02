@@ -1,8 +1,25 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import SingleFormTemplateCard from "./_components/single-form-template-card";
 import { RocketIcon } from "@radix-ui/react-icons";
+import { cookies } from "next/headers";
 
-const FormsListPage = () => {
+const getForms = async () => {
+  const cookieStore = cookies();
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_APP_URL + "/api/templates/forms",
+    {
+      headers: {
+        cookie: `${cookieStore.get("token")?.value || ""}`,
+      },
+    }
+  );
+  const result = await response.json();
+  return result?.data;
+};
+
+const FormsListPage = async () => {
+  let forms = await getForms();
+
   return (
     <div className="m-6 p-6 bg-white rounded-xl shadow-md">
       <Alert className="mb-8 bg-green-100">
@@ -15,14 +32,14 @@ const FormsListPage = () => {
 
       <h2 className="text-xl font-bold capitalize">Prebuilt form templates</h2>
       <div className="mt-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-        <SingleFormTemplateCard
-          title="Simple Form"
-          description="This form will help you collect name, email, logo, rating and feedback."
-        />
-        <SingleFormTemplateCard
-          title="Hotel Feedback Form"
-          description="This form will help you collect guest name, email, room No, rating and feedback."
-        />
+        {forms?.map((form: any) => (
+          <SingleFormTemplateCard
+            key={form.title}
+            formId={form._id}
+            title={form.title}
+            description={form.description}
+          />
+        ))}
       </div>
     </div>
   );

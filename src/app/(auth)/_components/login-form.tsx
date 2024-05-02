@@ -52,16 +52,18 @@ const LoginForm = () => {
         body: JSON.stringify(values),
       });
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (data.statusCode !== 200) {
-        throw new Error(data?.message);
+      if (result.statusCode !== 200) {
+        throw new Error(result?.message);
       }
 
       toast({
         title: "Success",
-        description: data?.message,
+        description: result?.message,
       });
+
+      localStorage.setItem("user", JSON.stringify(result.data));
 
       setIsLoading(false);
 
