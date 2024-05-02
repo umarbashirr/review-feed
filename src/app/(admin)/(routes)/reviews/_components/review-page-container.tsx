@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { BiFilter } from "react-icons/bi";
 
-const ReviewPageContainer = () => {
+const ReviewPageContainer = ({ reviews }: any) => {
+  const [allReviews, setAllReviews] = useState(reviews);
   const [currentTab, setCurrentTab] = useState(0);
 
   const tabs = [
@@ -25,6 +26,20 @@ const ReviewPageContainer = () => {
 
   function changeTab(value: number) {
     setCurrentTab(value);
+
+    if (value === 0) {
+      setAllReviews(reviews);
+    } else if (value === 1) {
+      const filteredReviews = reviews.filter(
+        (review: any) => review.rating >= 3
+      );
+      setAllReviews(filteredReviews);
+    } else if (value === 2) {
+      const filteredReviews = reviews.filter(
+        (review: any) => review.rating < 3
+      );
+      setAllReviews(filteredReviews);
+    }
   }
 
   return (
@@ -51,21 +66,35 @@ const ReviewPageContainer = () => {
           <input
             type="text"
             placeholder="Filter by title or name ...."
-            className="w-full text-sm text-muted-foreground focus:outline-none "
+            className="w-full text-sm text-muted-foreground focus:outline-none"
+            onChange={(e) => {
+              const filteredReviews = reviews.filter((review: any) =>
+                review.name.toLowerCase().includes(e.target.value.toLowerCase())
+              );
+              setAllReviews(filteredReviews);
+            }}
           />
           <BiFilter className="shrink-0 w-6 h-6 text-muted-foreground" />
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <SingleReviewCard />
-        <SingleReviewCard />
-        <SingleReviewCard />
-        <SingleReviewCard />
-        <SingleReviewCard />
-        <SingleReviewCard />
-        <SingleReviewCard />
-        <SingleReviewCard />
-        <SingleReviewCard />
+        {allReviews?.map((review: any) => {
+          return (
+            <SingleReviewCard
+              key={review._id}
+              rating={review.rating}
+              name={review.name}
+              email={review.email}
+              phoneNumber={review.phoneNumber}
+              logoUrl={review.logoUrl}
+              companyName={review.companyName}
+              designation={review.designation}
+              roomNumber={review.roomNumber}
+              createdAt={review.createdAt}
+              feedback={review.feedback}
+            />
+          );
+        })}
       </div>
     </div>
   );

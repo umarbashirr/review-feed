@@ -10,9 +10,29 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
-    clientDetails: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Client",
+    name: {
+      type: String,
+      trim: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    logoUrl: {
+      type: String,
+    },
+    companyName: {
+      type: String,
+    },
+    designation: {
+      type: String,
+    },
+    roomNumber: {
+      type: String,
     },
   },
   {
