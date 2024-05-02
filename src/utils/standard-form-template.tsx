@@ -1,10 +1,14 @@
-export const standardReviewForms = [
+import { IHotelForm } from "@/interfaces/hotel-form.interface";
+
+export const standardReviewForms: IHotelForm[] = [
   {
     title: "Standard Form",
     description:
       "This is a standard form for review which help you collect name, email, rating, and feedback.",
     isActive: true,
     isStandard: true,
+    formType: "review",
+    formCategory: "standard",
     fields: [
       {
         label: "Name",
@@ -47,6 +51,8 @@ export const standardReviewForms = [
       "This is a hotel review form which help you collect guest name, email, room number, rating, and feedback.",
     isActive: true,
     isStandard: true,
+    formType: "review",
+    formCategory: "hotel",
     fields: [
       {
         label: "Guest Name",
