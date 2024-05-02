@@ -17,16 +17,22 @@ import { Input } from "@/components/ui/input";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
-const ChangePasswordFormSchema = z.object({
-  currentPassword: z.string().min(4, {
-    message: "Name should be minimum 02 characters",
-  }),
-  newPassword: z.string().min(4, {
-    message: "Password should be atleast 02 characters",
-  }),
-  confirmPassword: z.string(),
-});
+const ChangePasswordFormSchema = z
+  .object({
+    currentPassword: z.string().min(4, {
+      message: "Name should be minimum 02 characters",
+    }),
+    newPassword: z.string().min(4, {
+      message: "Password should be atleast 02 characters",
+    }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +48,37 @@ const ChangePasswordForm = () => {
 
   async function onSubmit(values: z.infer<typeof ChangePasswordFormSchema>) {
     console.log(values);
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/me/change-password", {
+        method: "POST",
+        body: JSON.stringify({
+          currentPassword: values.currentPassword,
+          newPassword: values.newPassword,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result?.success) {
+        throw new Error(result?.message);
+      }
+
+      setIsLoading(false);
+      form.reset();
+      toast({
+        title: "Success",
+        description: result?.message,
+      });
+    } catch (error: any) {
+      setIsLoading(false);
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
   }
 
   return (
