@@ -1,18 +1,10 @@
 "use client";
 
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 
 interface TextInputFieldProps {
-  control: any;
-  isLoading: boolean;
+  onChange: (e: any) => void;
   label: string;
   name: string;
   type: string;
@@ -20,33 +12,28 @@ interface TextInputFieldProps {
 }
 
 const TextAreaCustom = ({
-  control,
-  isLoading,
+  onChange,
   label,
   name,
   type,
   placeholder = "",
 }: TextInputFieldProps) => {
   return (
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <Textarea
-              placeholder={placeholder}
-              className="resize-none"
-              disabled={isLoading}
-              rows={5}
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <div className="">
+      <label
+        htmlFor={name}
+        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >
+        {label}
+      </label>
+      <textarea
+        className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+        rows={7}
+        placeholder={placeholder}
+        name={name}
+        onChange={onChange}
+      />
+    </div>
   );
 };
 
